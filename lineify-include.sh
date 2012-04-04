@@ -4,6 +4,9 @@
 # Sometimes we get '-zsh' or similar, so strip out that dash.
 shell=`ps -p $$ | tail -1 | awk '{print $NF}' | sed 's/-//'`
 
+# For development purposes only!
+PATH=$PATH:.
+
 case $shell in
 "bash")
 	trap 'terminal-screensaver-reset' DEBUG
@@ -15,4 +18,12 @@ case $shell in
 	function preexec () { terminal-screensaver-reset; }
 	;;
 esac
+
+# Use the PID to differentiate between shells.  We need to save it here because
+# the scripts will run under their own PIDs.
+export terminal_screensaver_pid=`ps -p $$ | tail -1 | awk '{print $1}'`
+
+# This will cause a shell exit to give the 'You have running jobs' error
+# message, which requires an `fg` and interrupt before shell exit.
+terminal-screensaverd &
 

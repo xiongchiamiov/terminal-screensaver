@@ -1,0 +1,7 @@
+#!/bin/sh
+
+while :; do
+	echo "screensaverd called in process $terminal_screensaver_pid"
+	sleep 15
+done
+
