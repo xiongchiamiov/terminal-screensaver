@@ -21,7 +21,7 @@ esac
 
 # Use the PID to differentiate between shells.  We need to save it here because
 # the scripts will run under their own PIDs.
-export terminal_screensaver_pid=`ps -p $$ | tail -1 | awk '{print $1}'`
+export terminal_screensaver_pid=$$
 
 # This will cause a shell exit to give the 'You have running jobs' error
 # message, which requires an `fg` and interrupt before shell exit.
