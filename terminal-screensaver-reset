@@ -1,3 +1,4 @@
 #!/bin/sh
-echo "reset called in process $terminal_screensaver_pid"
+
+touch pids/$terminal_screensaver_pid
 

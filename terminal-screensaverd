@@ -1,7 +1,14 @@
-#!/bin/sh
+#!/bin/zsh
 
 while :; do
-	echo "screensaverd called in process $terminal_screensaver_pid"
+	echo "screensaverd called"
+	for pid in `ls pids`; do
+		echo "checking $pid"
+		if test `find pids/$pid -mmin +1`; then
+			echo "too old"
+			kill -SIGALRM $pid
+		fi
+	done
 	sleep 15
 done
 

@@ -10,14 +10,17 @@ PATH=$PATH:.
 case $shell in
 "bash")
 	trap 'terminal-screensaver-reset' DEBUG
+	trap 'terminal-screensaver' SIGALRM
 	;;
 "sh")
 	trap 'terminal-screensaver-reset' DEBUG
 	;;
 "zsh")
 	function preexec () { terminal-screensaver-reset; }
+	trap 'terminal-screensaver' SIGALRM
 	;;
 esac
+terminal-screensaver-reset
 
 # Use the PID to differentiate between shells.  We need to save it here because
 # the scripts will run under their own PIDs.
@@ -25,5 +28,5 @@ export terminal_screensaver_pid=$$
 
 # This will cause a shell exit to give the 'You have running jobs' error
 # message, which requires an `fg` and interrupt before shell exit.
-terminal-screensaverd &
+#terminal-screensaverd &
 

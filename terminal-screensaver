@@ -1,0 +1,3 @@
+#!/bin/sh
+echo "screensaver called in process $terminal_screensaver_pid"
+
