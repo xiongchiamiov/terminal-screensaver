@@ -16,7 +16,7 @@ while :; do
 		idle=`conf 'idle-minutes-until-start'`
 		if test `find $PID_DIR/$pid -mmin +$idle`; then
 			echo "too old"
-			kill -SIGALRM $pid
+			kill -SIGALRM $pid || rm $PID_DIR/$pid
 		fi
 	done
 	sleep 15
