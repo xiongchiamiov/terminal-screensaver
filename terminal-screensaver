@@ -1,3 +1,11 @@
 #!/bin/sh
-echo "screensaver called in process $terminal_screensaver_pid"
+
+function conf() { 
+	grep $1 terminal-screensaver.conf.example \
+	| awk '{for (i=2;i<=NF;i++) {printf "%s%s",(i>2?" ":""), $i}; printf "\n"}'
+}
+
+screensaver=`conf screensaver-command`
+echo "screensaver $screensaver called in process $terminal_screensaver_pid"
+exec $screensaver
 

@@ -1,4 +1,4 @@
 #!/bin/sh
 
-touch pids/$terminal_screensaver_pid
+touch /var/run/terminal-screensaver/$terminal_screensaver_pid
 

@@ -26,7 +26,3 @@ terminal-screensaver-reset
 # the scripts will run under their own PIDs.
 export terminal_screensaver_pid=$$
 
-# This will cause a shell exit to give the 'You have running jobs' error
-# message, which requires an `fg` and interrupt before shell exit.
-#terminal-screensaverd &
-

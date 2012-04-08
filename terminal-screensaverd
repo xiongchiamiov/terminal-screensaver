@@ -1,10 +1,20 @@
-#!/bin/zsh
+#!/bin/bash
+
+function conf() { 
+	grep $1 terminal-screensaver.conf.example \
+	| awk '{for (i=2;i<=NF;i++) {printf "%s%s",(i>2?" ":""), $i}; printf "\n"}'
+}
+
+PID_DIR=/var/run/terminal-screensaver
+mkdir -p $PID_DIR
+chmod a+w $PID_DIR
 
 while :; do
 	echo "screensaverd called"
-	for pid in `ls pids`; do
+	for pid in `ls $PID_DIR`; do
 		echo "checking $pid"
-		if test `find pids/$pid -mmin +1`; then
+		idle=`conf 'idle-minutes-until-start'`
+		if test `find $PID_DIR/$pid -mmin +$idle`; then
 			echo "too old"
 			kill -SIGALRM $pid
 		fi
