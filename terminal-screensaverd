@@ -1,7 +1,14 @@
 #!/bin/bash
 
 function conf() { 
-	grep $1 terminal-screensaver.conf.example \
+	# This is bad.  For instance, if $2 evaluates to 'echo rm -rf /'...  We
+	# can't just grep out of /etc/passwd, because it doesn't contain user home
+	# directory information on OS X.  So, don't create any user accounts with
+	# weird names.  It'd also be a good idea to create a separate
+	# 'terminal-screensaver' user with write privileges to nothing other than
+	# /var/run/terminal-screensaver .
+	eval homedir=~$2
+	grep $1 $homedir/.terminal-screensaver.conf \
 	| awk '{for (i=2;i<=NF;i++) {printf "%s%s",(i>2?" ":""), $i}; printf "\n"}'
 }
 
@@ -13,7 +20,8 @@ while :; do
 	echo "screensaverd called"
 	for pid in `ls $PID_DIR`; do
 		echo "checking $pid"
-		idle=`conf 'idle-minutes-until-start'`
+		user=`ps -o user= $pid`
+		idle=`conf 'idle-minutes-until-start' $user`
 		if test `find $PID_DIR/$pid -mmin +$idle`; then
 			echo "too old"
 			kill -SIGALRM $pid || rm $PID_DIR/$pid
