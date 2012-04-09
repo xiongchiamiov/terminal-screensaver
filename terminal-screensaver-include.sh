@@ -17,9 +17,9 @@ case $shell in
 	trap 'terminal-screensaver' SIGALRM
 	;;
 esac
-terminal-screensaver-reset
 
 # Use the PID to differentiate between shells.  We need to save it here because
 # the scripts will run under their own PIDs.
 export terminal_screensaver_pid=$$
+terminal-screensaver-reset
 
