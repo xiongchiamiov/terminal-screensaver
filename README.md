@@ -1,6 +1,6 @@
 Screensavers are cool.  Why can't you have them in your terminals?
 
-There is a video demo available [on YouTube](http://youtu.be/sjTcXhiyLno).
+There is a video demo available [on YouTube](http://youtu.be/12lv4ogKr84).
 
 # Install
 
