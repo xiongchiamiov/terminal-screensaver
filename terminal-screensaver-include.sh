@@ -5,15 +5,12 @@
 shell=`ps -p $$ | tail -1 | awk '{print $NF}' | sed 's/-//'`
 
 # For development purposes only!
-PATH=$PATH:.
+#PATH=$PATH:.
 
 case $shell in
 "bash")
 	trap 'terminal-screensaver-reset' DEBUG
 	trap 'terminal-screensaver' SIGALRM
-	;;
-"sh")
-	trap 'terminal-screensaver-reset' DEBUG
 	;;
 "zsh")
 	function preexec () { terminal-screensaver-reset; }

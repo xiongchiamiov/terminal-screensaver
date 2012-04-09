@@ -1,15 +1,16 @@
 Screensavers are cool.  Why can't you have them in your terminals?
 
-# The Gist of It
+# Install
 
-Process runs in the background of every shell.  Every command you run triggers
-a hook that resets a timer.  If the timer doesn't get reset in a certain amount
-of time, run a program (preferably something like [CMatrix]).
+1. Copy `terminal-screensaver.conf.example` to `~/.terminal-screensaver.conf`
+and modify as you wish.
+2. In your `~/.bashrc` or `~/.zshrc`, add a sourcing of the
+`terminal-screensaver-include.sh` file:
 
-[CMatrix]: http://www.asty.org/cmatrix/
+	screensaver_source=$HOME/Documents/terminal-screensaver/terminal-screensaver-include.sh
+	[[ -s "$screensaver_source" ]] && source "$screensaver_source"
 
-# Status
-
-There are a bunch of things I need to work out before this works at all.
-Consider this just ideas thrown into a repo for now.
+3. Put `terminal-screensaver` and `terminal-screensaver-reset` somewhere in
+your `PATH`.
+4. Read the comments in `terminal-screensaverd` and run it.
 
