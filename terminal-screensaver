@@ -13,6 +13,6 @@ function conf() {
 }
 
 screensaver=`conf screensaver-command`
-echo "screensaver $screensaver called in process $terminal_screensaver_pid"
+#echo "screensaver $screensaver called in process $terminal_screensaver_pid"
 exec $screensaver
 
