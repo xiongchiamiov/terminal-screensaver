@@ -7,8 +7,10 @@ and modify as you wish.
 2. In your `~/.bashrc` or `~/.zshrc`, add a sourcing of the
 `terminal-screensaver-include.sh` file:
 
+	```
 	screensaver_source=$HOME/Documents/terminal-screensaver/terminal-screensaver-include.sh
 	[[ -s "$screensaver_source" ]] && source "$screensaver_source"
+	```
 
 3. Put `terminal-screensaver` and `terminal-screensaver-reset` somewhere in
 your `PATH`.
