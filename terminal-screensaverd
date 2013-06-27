@@ -1,15 +1,22 @@
 #!/bin/bash
 
-function conf() { 
-	# This is bad.  For instance, if $2 evaluates to 'echo rm -rf /'...  We
-	# can't just grep out of /etc/passwd, because it doesn't contain user home
-	# directory information on OS X.  So, don't create any user accounts with
-	# weird names.  It'd also be a good idea to create a separate
-	# 'terminal-screensaver' user with write privileges to nothing other than
-	# /var/run/terminal-screensaver .
-	eval homedir=~$2
-	grep $1 $homedir/.terminal-screensaver.conf \
-	| awk '{for (i=2;i<=NF;i++) {printf "%s%s",(i>2?" ":""), $i}; printf "\n"}'
+function conf() {
+	# Improved function still relies on tilde expansion, but should be safe.
+	# Feel free to create user accounts named '`rm -rf /`' if you like :)
+	# This also only returns the first match in the file, rather than
+	# potentially returning a confusing mess if multiple options match.
+	# Exception handling is non-existant, but that's nothing new.
+	# Thanks to cut's nature, matching lines containing no spaces
+	# will be returned unaltered.
+	if [ "x$2" = "x" ]; then
+		homedir=~
+	else
+		eval homedir="$(printf "~%q" "$2")"
+	fi
+	[ -d "$homedir" ] || return 2 # user has a home directory?
+	[ -e "$homedir/.terminal-screensaver.conf" ] || return 3 # that directory has a config file?
+	[ -O "$homedir/.terminal-screensaver.conf" ] || return 4 # that config file is safe?
+	grep -m 1 -e "^$1" -- "$homedir/.terminal-screensaver.conf" | cut -d' ' -f2-
 }
 
 PID_DIR=/var/run/terminal-screensaver
@@ -21,7 +28,7 @@ while :; do
 	for pid in `ls $PID_DIR`; do
 		echo "checking $pid"
 		user=`ps -o user= $pid`
-		idle=`conf 'idle-minutes-until-start' $user`
+		idle="`conf 'idle-minutes-until-start' $user`"
 		if test `find $PID_DIR/$pid -mmin +$idle`; then
 			echo "too old"
 			kill -SIGALRM $pid || rm $PID_DIR/$pid
